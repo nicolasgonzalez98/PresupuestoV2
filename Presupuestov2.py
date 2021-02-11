@@ -12,6 +12,7 @@ import sys
 articulos=[]
 fuente='Helvetica'
 w, h = A4
+cliente=[]
 #Funciones
 def convertir(dato):
 	try:
@@ -46,6 +47,7 @@ def agregarArticulos(lista=articulos):
 	precioU=entradaPrecioU.get()
 	precioU=convertir(precioU)
 	if cant=='ok' or ancho=='ok' or alto=='ok' or precioU=='ok' or nombre=='ok':
+		messagebox.showerror("Error", "Faltan datos del cliente")
 		pass
 	else:
 		sup=ancho*alto
@@ -64,7 +66,6 @@ def agregarArticulos(lista=articulos):
 	
 	
 def agregarCliente():
-	cliente=[]
 	numPresupuesto=entradaNumPres.get()
 	numPresupuesto=convertir(numPresupuesto)
 	numCliente=entradaNumCliente.get()
@@ -74,20 +75,21 @@ def agregarCliente():
 	apelCliente=entradaApelCliente.get()
 	apelCliente=str(apelCliente)
 	if numPresupuesto=='ok' or numCliente=='ok' or nombreCliente=='ok' or apelCliente=='ok':
+		messagebox.showerror("Error", "Faltan datos del cliente")
 		pass
 	else:
 		cliente.append((numPresupuesto,numCliente,nombreCliente,apelCliente))
-		return cliente
+		
 		
 		
 
 def crearPDF():
 	w, h = A4
-	cliente=agregarCliente()
 	variable=checkbutton_estado.get()
 	numPresupuesto,numCliente,nombreCliente,apelCliente=cliente[0]
 	direct=os.getcwd()
-	direct+="\Presupuestos-PDF"
+	local="\Presupuestos-PDF"
+	direct+=local
 	if os.path.exists(direct)==False:
 		os.mkdir(direct)
 	numPresupuesto1=str(numPresupuesto)+'.pdf'
@@ -360,7 +362,8 @@ entradaNumCliente.place(x=250,y=75)
 etiqApelCliente=ttk.Label(root, text=' Apellido/s: ').place(x=250,y=100)
 entradaApelCliente=ttk.Entry()
 entradaApelCliente.place(x=250,y=120)
-
+	#Boton agregar cliente
+botonAgrCli=ttk.Button(text='Agregar cliente', command=agregarCliente).place(x=400,y=120)
 #Datos de articulos
 
 tituloArticulos=ttk.Label(root, text='Datos del articulo').place(x=15,y=150)
